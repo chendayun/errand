@@ -19,6 +19,25 @@
 			<view class="me-go-to">
 			</view>
 		</navigator>
+		
+		<navigator class="me-item " url="../fill/fill">
+			<image class="me-item-icon" src="../../static/me_icon/me-fill.png" mode="aspectFill"></image>
+			<view class="me-item-title">
+				申请成为跑腿者
+			</view>
+			<view class="me-item-go-to">
+			</view>
+		</navigator>
+		<navigator class="me-item " url="/pages/order/order-list">
+			<image class="me-item-icon" src="../../static/me_icon/me-order.jpeg" mode="aspectFill"></image>
+			<view class="me-item-title">
+				我的订单
+			</view>
+			<view class="me-item-go-to">
+			</view>
+		</navigator>
+		
+		
 		<navigator class="me-item " url="/pages/settingList/settingList">
 			<image class="me-item-icon" src="../../static/me_icon/me-setting.png" mode="aspectFill"></image>
 			<view class="me-item-title">
@@ -26,8 +45,9 @@
 			</view>
 			<view class="me-item-go-to">
 			</view>
-
 		</navigator>
+		
+
 	</view>
 
 </template>
