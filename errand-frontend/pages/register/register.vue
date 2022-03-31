@@ -14,38 +14,40 @@
 				</view>
 				<view class="t-a">
 					<image src="@/static/login-common/pwd.png"></image>
-					<input type="password" name="code" maxlength="6" placeholder="请确认密码" v-model="pwd" />
+					<input type="password" name="code" maxlength="6" placeholder="请确认密码" v-model="newpwd" />
 				</view>
 				<view class="t-a">
 					<image src="@/static/login-common/yzm.png"></image>
-					<input type="number" name="code" maxl
-					ength="6" placeholder="请输入验证码" v-model="yzm" />
+					<input type="number" name="code" maxlength="6" placeholder="请输入验证码" v-model="yzm" />
 					<view v-if="showText" class="t-c-2" @click="getCode()">发送短信</view>
 					<view v-else class="t-c-2" style="background-color: #A7A7A7;">重新发送({{ second }})</view>
 				</view>
 				<view class="t-c" @tap="forgotPwd()">忘记密码</view>
-				<button @click="login()">注册</button>
+				<button @click="register()">注册</button>
 			</form>
 		</view>
-		</view>
+	</view>
 </template>
 <script>
 	export default {
 		data() {
 			return {
-				phone: '', //手机号码
-				pwd: '', //密码,
+				phone: '18070655716', //手机号码
+				pwd: '123456', //密码,
+				newpwd: '123456',
 				showText: true, //判断短信是否发送
-				yzm: '' ,//验证码
-				second:60
-				
+				userInfo:{},
+				yzm: '', //验证码
+				second: 60
+
 			};
 		},
 		onLoad() {},
 		methods: {
-			//当前登录按钮操作
-			login() {
+			//当前注册按钮操作
+			register() {
 				var that = this;
+				let userInfo ={};
 				if (!that.phone) {
 					uni.showToast({
 						title: '请输入手机号',
@@ -67,25 +69,58 @@
 					});
 					return;
 				}
-				uni.showToast({
-					title: '登录成功！',
-					icon: 'none'
-				});
+				if (!that.newpwd) {
+					uni.showToast({
+						title: '请输入确认密码',
+						icon: 'none'
+					});
+					return;
+				}
+				if (that.pwd != that.newpwd) {
+					uni.showToast({
+						title: '两次密码不一致',
+						icon: 'none'
+					});
+					return;
+				}
+				that.userInfo.userName  = that.phone;
+				that.userInfo.phoneNumber=that.phone;
+				that.userInfo.password=that.pwd;
+				uni.request({
+					url:getApp().globalData.mainHost +"/register/register",
+					method:"POST",
+					data:{
+						userInfo:that.userInfo
+					},
+					success: (res) => {
+						console.log(JSON.stringify(res))
+						if (res.statusCode !== 200) {
+							uni.showToast({
+								title: "服务器内部错误",
+								icon:"none",
+								duration: 500,
+							});
+							return;
+						}
+						if (res.data.retCode != 0) {
+							uni.showToast({
+								title:  res.data.retDesc,
+								icon:"none",
+								duration: 2000,
+							});
+							
+							return;
+						}
+					}
+				})
 			},
 			//忘记密码
 			forgotPwd() {
-				uni.showToast({
-					title: '忘记密码',
-					icon: 'none'
-				});
+				uni.redirectTo({
+					url: '../reset-pwd/reset-pwd'
+				})
 			},
-			//立刻注册
-			reg() {
-				uni.showToast({
-					title: '立刻注册',
-					icon: 'none'
-				});
-			},
+
 			//获取短信验证码
 			getCode() {
 				var that = this;

@@ -46,7 +46,14 @@
 			<view class="me-item-go-to">
 			</view>
 		</navigator>
-		
+		<navigator class="me-item " url="/pages/login/login">
+			<image class="me-item-icon" src="../../static/me_icon/me-setting.png" mode="aspectFill"></image>
+			<view class="me-item-title">
+				设置
+			</view>
+			<view class="me-item-go-to">
+			</view>
+		</navigator>
 
 	</view>
 

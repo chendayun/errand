@@ -26,10 +26,24 @@ $text-color-black: #3B3C3E; //黑
 $text-color-grey: #878889; //灰
 $text-color-white: #ffffff; //白
 
+$font-color-dark: #303133;
+/*文字颜色*/
+$font-color-dark: #303133;
+$font-color-base: #606266;
+$font-color-light: #909399;
+$font-color-disabled: #C0C4CC;
+$font-color-spec: #4399fc;
+/* 边框颜色 */
 /* 背景颜色 */
 $bg-color: #F1F8FA;
 $bg-color-grey: #F5F5F5;
 $bg-color-primary: #E8EACF;
+/* 页面左右间距 */
+$page-row-spacing: 30upx;
+$page-color-base: #f8f8f8;
+$page-color-light: #f8f6fc;
+$base-color: #e10a07;
+
 
 /* 边框颜色 */
 $border-color:#e2e2e2;

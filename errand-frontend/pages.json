@@ -45,14 +45,27 @@
 		}, {
 			"path": "pages/userInfo/userInfo",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "个人信息",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "确定",
+							"fontSize": "18",
+							"float": "right",
+							"color": "#000000",
+							"colorPressed":"#00aaff"
+						}]
+
+
+					}
+				}
 			}
 
 		}, {
 			"path": "pages/feedback/feedback",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "反馈",
 				"enablePullDownRefresh": false
 			}
 
@@ -70,8 +83,7 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-		, {
+		}, {
 			"path": "pages/fill/fill",
 			"style": {
 				"navigationBarTitleText": "申请",
@@ -86,7 +98,16 @@
 				"enablePullDownRefresh": false
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/publish/delivery",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"color": "#bfbfbf",
 		"selectedColor": "#515151",
@@ -114,5 +135,12 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 
-	}
+	},
+	// 下载安装时配置
+	"easycom": {
+	        "autoscan": true,
+	        "custom": {
+	            "fui-(.*)": "@/components/firstui/fui-$1/fui-$1.vue"
+	        }
+	    }
 }

@@ -1,23 +1,24 @@
 <!-- 红色简洁登录页面 -->
 <template>
-	<view class="login-bg">
+	<view class="login-root">
 		<image class="img-a" src="@/static/login-common/bg1.png"></image>
-		<view class="t-login">
+		<view class="login-content">
 			<view class="t-b">登 录</view>
-			<form class="cl">
-				<view class="t-a">
+			<form class="login-form">
+				<view class="login-item">
 					<image src="@/static/login-common/user.png"></image>
-					<input type="number" name="phone" placeholder="请输入手机号码" maxlength="11" v-model="phone" />
+					<input type="number" name="phone" placeholder="请输入手机号码" maxlength="11"
+						v-model="userInfo.phoneNumber" />
 				</view>
-				<view class="t-a">
+				<view class="login-item">
 					<image src="@/static/login-common/pwd.png"></image>
-					<input type="password" name="code" maxlength="6" placeholder="请输入密码" v-model="pwd" />
+					<input type="password" name="code" maxlength="6" placeholder="请输入密码" v-model="userInfo.password" />
 				</view>
-				<view class="t-c" @tap="forgotPwd()">忘记密码</view>
-				<button @tap="login()">登 录</button>
+				<view class="login-forgotpwd" @tap="forgotPwd()">忘记密码</view>
+				<button @click="login()">登 录</button>
 			</form>
 		</view>
-		<view class="cardBox">
+		<view class="login-item-cardBox">
 			<view>
 				还没有登录账号？
 				<text class="txt" @tap="reg()">立刻注册</text>
@@ -31,40 +32,89 @@
 
 		data() {
 			return {
-				phone: '', //手机号码
-				pwd: '' //密码
+				userInfo: {
+					phoneNumber: '18070625716', //手机号码
+					password: '123456', //密码
+					userName: '',
+				}
 			};
 		},
 		onLoad() {},
 		methods: {
 			//当前登录按钮操作
 			login() {
+				console.log("正在登录")
 				var that = this;
-				if (!that.phone) {
+				if (!that.userInfo.phoneNumber) {
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none'
 					});
 					return;
 				}
-				if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
+				if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.userInfo.phoneNumber)) {
 					uni.showToast({
 						title: '请输入正确手机号',
 						icon: 'none'
 					});
 					return;
 				}
-				if (!that.pwd) {
+				if (!that.userInfo.password) {
 					uni.showToast({
 						title: '请输入密码',
 						icon: 'none'
 					});
 					return;
 				}
-				uni.showToast({
-					title: '登录成功！',
-					icon: 'none'
-				});
+				that.userInfo.userName = that.userInfo.phoneNumber
+			
+				uni.request({
+					
+					url: getApp().globalData.mainHost + '/login/login',
+					method: "POST",
+					data: {
+						"userInfo": that.userInfo
+					},
+					success: (res) => {
+						console.log(JSON.stringify(res))
+						if (res.statusCode !== 200) {
+							uni.showToast({
+								title: "服务器内部错误",
+								duration: 500,
+							});
+							return;
+						}
+						if (res.data.retCode != 0) {
+							uni.showToast({
+								title:  res.data.retDesc,
+								icon:"none",
+								duration: 2000,
+							});
+							return;
+						}
+					},
+					fail: (res) => {
+						console.log(JSON.stringify(res))
+					}
+				})
+				// uni.request({
+				// 	method: "POST",
+				// 	data: {
+				// 		userInfo:this.userInfo,
+				// 		code:this.code
+						
+				// 	},
+					
+				// 	url: getApp().globalData.mainHost '/login/login',
+				// 		dataType: "json",
+				// 	success: (res) => {
+				// 	console.log(JSON.stringify(res))
+				// 		},
+					
+				// 	fail: (res) => {
+				// 		console.log("失败")
+				// 	}
+				// })
 			},
 			//忘记密码
 			forgotPwd() {
@@ -73,7 +123,7 @@
 				// 	icon: 'none'
 				// });
 				uni.redirectTo({
-					url:'../reset-pwd/reset-pwd'
+					url: '../reset-pwd/reset-pwd'
 				})
 			},
 			//立刻注册
@@ -83,8 +133,8 @@
 				// 	icon: 'none'
 				// });
 				uni.redirectTo({
-					url:"../register/register"
-				}) 
+					url: "../register/register"
+				})
 			}
 		}
 	};
@@ -101,13 +151,15 @@
 		position: absolute;
 	}
 
-	.login-bg {
+	.login-root {
 		height: 100vh;
 		background: linear-gradient(to bottom, #ff6a9a, #fe7d76);
 	}
 
-	.t-login {
-		width: 580rpx;
+	.login-content {
+		/* width: 580rpx;
+		 */
+		width: 86%;
 		padding: 55rpx;
 		margin: 0 auto;
 		font-size: 28rpx;
@@ -119,7 +171,7 @@
 		z-index: 9;
 	}
 
-	.t-login button {
+	.login-content button {
 		font-size: 28rpx;
 		background: linear-gradient(to right, #ff8f77, #fe519f);
 		color: #fff;
@@ -128,8 +180,8 @@
 		border-radius: 50rpx;
 	}
 
-	.t-login input {
-		padding: 0 20rpx 0 120rpx;
+	.login-content input {
+		padding: 0 10rpx 0 120rpx;
 		height: 90rpx;
 		line-height: 90rpx;
 		margin-bottom: 50rpx;
@@ -139,20 +191,20 @@
 		border-radius: 50rpx;
 	}
 
-	.t-login .t-a {
+	.login-content .login-item {
 		position: relative;
 	}
 
-	.t-login .t-a image {
-		width: 40rpx;
-		height: 40rpx;
+	.login-content .login-item image {
+		width: 50rpx;
+		height: 50rpx;
 		position: absolute;
 		left: 40rpx;
 		top: 28rpx;
 		padding-right: 20rpx;
 	}
 
-	.t-login .t-b {
+	.login-content .t-b {
 		text-align: left;
 		font-size: 46rpx;
 		color: #ff939b;
@@ -160,39 +212,39 @@
 		margin: 0 0 50rpx 20rpx;
 	}
 
-	.t-login .t-d {
+	.login-content .t-d {
 		text-align: center;
 		color: #999;
 		margin: 80rpx 0;
 	}
 
-	.t-login .t-c {
+	.login-content .login-forgotpwd {
 		text-align: right;
 		color: #c0c0c0;
 		margin: -20rpx 30rpx 40rpx 0;
 	}
 
-	.t-login .t-f {
+	.login-content .t-f {
 		text-align: center;
 		margin: 200rpx 0 0 0;
 		color: #666;
 	}
 
-	.t-login .t-f text {
+	.login-content .t-f text {
 		margin-left: 20rpx;
 		color: #aaaaaa;
 		font-size: 27rpx;
 	}
 
-	.t-login .uni-input-placeholder {
+	.login-content .uni-input-placeholder {
 		color: #aeaeae;
 	}
 
-	.cl {
+	.login-form {
 		zoom: 1;
 	}
 
-	.cl:after {
+	.login-form:after {
 		clear: both;
 		display: block;
 		visibility: hidden;
@@ -200,7 +252,7 @@
 		content: '\20';
 	}
 
-	.cardBox {
+	.login-item-cardBox {
 		-webkit-box-orient: horizontal;
 		-webkit-box-direction: normal;
 		-webkit-flex-direction: row;
@@ -223,7 +275,7 @@
 		font-size: 28rpx;
 	}
 
-	.cardBox .txt {
+	.login-item-cardBox .txt {
 		color: #fe519f;
 	}
 </style>

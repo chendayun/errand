@@ -9,8 +9,8 @@
 				<view class="title">性<span class="padding-left padding-right"></span>别</view>
 				<view class="radio-group">
 					<view class="radio" :class="{'checked': form.sex == 'man'}" style="margin-right: 10rpx;"
-						@tap="form.sex='man'">先生</view>
-					<view class="radio" :class="{'checked': form.sex == 'woMan'}" @tap="form.sex='woMan'">女士</view>
+						@tap="form.sex='man'">男生</view>
+					<view class="radio" :class="{'checked': form.sex == 'woMan'}" @tap="form.sex='woMan'">女生</view>
 				</view>
 			</view>
 			<view class="cu-form-group ">
@@ -31,12 +31,12 @@
 				请上传身份证正面
 			</view>
 			<view class="pic_01" @tap="uploadBack()">
-				<img v-if="!form.idImgBack" src="/static/fill_icon/id_back.png"></img>
+				<img v-if="!form.idImgBack" src="/static/fill/id_back.png"></img>
 				<img v-else :src="form.idImgBack"></img>
 				请上传身份证反面
 			</view>
 			<view class="pic_01" @tap="uploadIdCard()">
-				<img v-if="!form.perImgSelf" src="/static/fill_icon/courier_user.png"></img>
+				<img v-if="!form.perImgSelf" src="/static/fill/courier_user.png"></img>
 				<img v-else :src="form.perImgSelf"></img>
 				请上传个人自拍照
 			</view>
